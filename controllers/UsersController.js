@@ -1,7 +1,6 @@
 import sha1 from 'sha1';
 import dbClient from '../utils/db';
 import redisClient from '../utils/redis';
-import { ObjectId } from 'mongodb';
 import Queue from 'bull';
 
 class UsersController {
@@ -24,22 +23,3 @@ class UsersController {
       return res.status(201).json(user);
     });
   }
-
-  static async getMe(req, res) {
-    const token = req.header('X-Token');
-    const id = await redisClient.get(`auth_${token}`);
-    if (id) {
-      const user = await dbClient.db.collection('users').findOne({ _id: ObjectId(id) });
-      if (user) {
-        return res.status(200).json({ id: user._id, email: user.email });
-      } else {
-        return res.status(401).json({ error: 'Unauthorized' });
-      }
-    } else {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-  }
-}
-
-export default UsersController;
-
