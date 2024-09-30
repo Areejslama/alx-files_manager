@@ -1,7 +1,6 @@
 import sha1 from 'sha1';
-import dbClient from '../utils/db';
-import redisClient from '../utils/redis';
 import Queue from 'bull';
+import dbClient from '../utils/db';
 
 class UsersController {
   // eslint-disable-next-line consistent-return
@@ -24,3 +23,5 @@ class UsersController {
     });
   }
 }
+
+export default UsersController;
